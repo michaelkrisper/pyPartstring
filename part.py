@@ -4,7 +4,6 @@
 Script for splitting a string into its parts (variable length, all possible combinations in order).
 """
 
-from pprint import pprint
 import itertools
 
 __author__ = "Michael Krisper"
@@ -23,20 +22,20 @@ def split(text):
         pos = 0
         while pos < len(text):
             for part in sub_parts:
-                if text.startswith(part, pos) and ((part in sub_solution) or all(x not in part for x in sub_solution)):
+                if text.startswith(part, pos) and ((part in sub_solution) or all(x not in part and part not in x for x in sub_solution)):
                     sub_solution.add(part)
                     pos += len(part)
                     break
             else:
                 break
         if pos == len(text):
-            solution = tuple(sorted(sub_solution, key=lambda x: (len(x), x)))
+            solution = tuple(sorted(sub_solution))
             if solution not in solutions:
                 yield solution
                 solutions.add(solution)
 
 def main():
-    pprint(list(split("abca")))
+    print(set(split("abcd")))
 
 
 if __name__ == "__main__":
